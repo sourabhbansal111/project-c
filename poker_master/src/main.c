@@ -8,19 +8,6 @@
 
 #define MAX_PLAYERS 6
 
-static void print_cards(Card cards[], int count)
-{
-    for (int i = 0; i < count; i++) {
-
-        print_card(cards[i]);
-
-        if (i < count - 1)
-            printf(" ");
-    }
-
-    printf("\n");
-}
-
 int main(void)
 {
     srand((unsigned int)time(NULL));

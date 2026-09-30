@@ -14,3 +14,15 @@ void print_card(Card card)
 
     printf("%s%s", ranks[card.rank], suits[card.suit]);
 }
+
+void print_cards(Card cards[], int count)
+{
+    for (int i = 0; i < count; i++) {
+        print_card(cards[i]);
+
+        if (i < count - 1)
+            printf(" ");
+    }
+
+    printf("\n");
+}

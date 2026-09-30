@@ -30,5 +30,6 @@ typedef struct {
 } Card;
 
 void print_card(Card card);
+void print_cards(Card cards[], int count);
 
 #endif
