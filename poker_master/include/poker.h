@@ -3,8 +3,6 @@
 
 #include "card.h"
 
-#define MAX_PLAYERS 6
-
 typedef enum {
     HIGH_CARD = 1,
     ONE_PAIR,
@@ -17,14 +15,10 @@ typedef enum {
     STRAIGHT_FLUSH
 } HandRank;
 
-typedef struct {
-    char name[30];
-    Card hole_cards[2];
-    Card all_cards[7];
+//  * Forward declaration.
+//  * Player is actually defined in player.h
 
-    HandRank hand_rank;
-    int score[5];
-} Player;
+typedef struct Player Player;
 
 void evaluate_hand(Player *player);
 const char *hand_rank_name(HandRank rank);

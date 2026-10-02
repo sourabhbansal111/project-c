@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "poker.h"
+#include "player.h"
 
 static void sort_desc(int arr[], int n)
 {
