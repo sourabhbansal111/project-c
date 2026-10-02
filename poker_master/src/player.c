@@ -4,19 +4,32 @@
 
 void initialize_player(Player *player, const char *name)
 {
-    strncpy(player->name, name, sizeof(player->name) - 1);
+    strncpy(
+        player->name,
+        name,
+        sizeof(player->name) - 1
+    );
 
     player->name[sizeof(player->name) - 1] = '\0';
 
     player->chips = STARTING_CHIPS;
+
     player->current_bet = 0;
+    player->total_contribution = 0;
+
     player->folded = 0;
+    player->all_in = 0;
+    player->acted = 0;
 }
 
-void reset_player_for_round(Player *player)
+void reset_player_for_hand(Player *player)
 {
     player->current_bet = 0;
+    player->total_contribution = 0;
+
     player->folded = 0;
+    player->all_in = 0;
+    player->acted = 0;
 }
 
 int player_bet(Player *player, int amount)
@@ -28,7 +41,12 @@ int player_bet(Player *player, int amount)
         return 0;
 
     player->chips -= amount;
+
     player->current_bet += amount;
+    player->total_contribution += amount;
+
+    if (player->chips == 0)
+        player->all_in = 1;
 
     return 1;
 }
@@ -36,4 +54,5 @@ int player_bet(Player *player, int amount)
 void player_fold(Player *player)
 {
     player->folded = 1;
+    player->acted = 1;
 }
