@@ -159,6 +159,21 @@ static void reset_betting_round(Game *game)
    SETUP BLINDS
    ========================================================= */
 
+static int next_player_in_hand(Game *game, int position)
+{
+    int next = (position + 1) % game->num_players;
+
+    for (int i = 0; i < game->num_players; i++) {
+
+        if (!game->players[next].folded)
+            return next;
+
+        next = (next + 1) % game->num_players;
+    }
+
+    return -1;
+}
+
 static void setup_blinds(Game *game)
 {
     int small_blind;
@@ -170,24 +185,27 @@ static void setup_blinds(Game *game)
      * Dealer = Small Blind
      * Other player = Big Blind
      */
-    if (game->num_players == 2) {
+    if (count_active_players(game) == 2) {
 
         small_blind =
             game->dealer_position;
 
-        big_blind =
-            (game->dealer_position + 1)
-            % game->num_players;
+        big_blind = next_player_in_hand(
+            game,
+            small_blind
+        );
 
     } else {
 
-        small_blind =
-            (game->dealer_position + 1)
-            % game->num_players;
+        small_blind = next_player_in_hand(
+            game,
+            game->dealer_position
+        );
 
-        big_blind =
-            (game->dealer_position + 2)
-            % game->num_players;
+        big_blind = next_player_in_hand(
+            game,
+            small_blind
+        );
     }
 
     collect_bet(
@@ -239,14 +257,20 @@ static int preflop_start(Game *game)
      *
      * Dealer/SB acts first pre-flop.
      */
-    if (game->num_players == 2) {
+    if (count_active_players(game) == 2) {
 
         return game->dealer_position;
     }
 
-    int big_blind =
-        (game->dealer_position + 2)
-        % game->num_players;
+    int small_blind = next_player_in_hand(
+        game,
+        game->dealer_position
+    );
+
+    int big_blind = next_player_in_hand(
+        game,
+        small_blind
+    );
 
     return (big_blind + 1)
            % game->num_players;

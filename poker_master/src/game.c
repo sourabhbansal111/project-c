@@ -117,11 +117,9 @@ void deal_hole_cards(Game *game)
              i < game->num_players;
              i++) {
 
-            /*
-             * Players with zero chips should
-             * already have been removed from
-             * the active game.
-             */
+            if (game->players[i].folded)
+                continue;
+
             game->players[i].hole_cards[round] =
                 deal_card(&game->deck);
         }

@@ -27,7 +27,7 @@ void reset_player_for_hand(Player *player)
     player->current_bet = 0;
     player->total_contribution = 0;
 
-    player->folded = 0;
+    player->folded = player->chips == 0;
     player->all_in = 0;
     player->acted = 0;
 }
