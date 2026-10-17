@@ -55,6 +55,8 @@ static int check_straight(int counts[], int *high)
 
 void evaluate_hand(Player *player)
 {
+    memset(player->score, 0, sizeof(player->score));
+
     int rank_count[15] = {0};
     int suit_count[4] = {0};
 

@@ -344,7 +344,8 @@ static int player_action(
     int choice;
 
     printf("Choose: ");
-    scanf("%d", &choice);
+    // scanf("%d", &choice);
+    choice = 1;
 
     /* -----------------------------------------------------
        CHECK / CALL
@@ -1138,7 +1139,7 @@ void award_pots(Game *game)
             pot.eligible_count > 0) {
 
             printf(
-                "Pot: %d chips\n",
+                "\nPot: %d chips\n",
                 pot.amount
             );
 
@@ -1175,10 +1176,43 @@ void award_pots(Game *game)
 
             if (winner != -1) {
 
+                int winners[MAX_PLAYERS];
+                int winner_count = 0;
+
+                for (int i = 0;
+                     i < pot.eligible_count;
+                     i++) {
+
+                    int index = pot.eligible[i];
+                    Player *player = &game->players[index];
+
+                    if (!player->folded &&
+                        compare_players(
+                            player,
+                            &game->players[winner]
+                        ) == 0) {
+
+                        winners[winner_count++] = index;
+                    }
+                }
+
                 printf(
-                    "Winner: %s\n",
-                    game->players[winner].name
+                    "%s: ",
+                    winner_count > 1 ? "Winners" : "Winner"
                 );
+
+                for (int i = 0; i < winner_count; i++) {
+
+                    printf(
+                        "%s",
+                        game->players[winners[i]].name
+                    );
+
+                    if (i < winner_count - 1)
+                        printf(", ");
+                }
+
+                printf("\n");
 
                 printf(
                     "Hand: %s\n",
