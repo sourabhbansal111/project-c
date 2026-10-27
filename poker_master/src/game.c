@@ -344,8 +344,7 @@ static int player_action(
     int choice;
 
     printf("Choose: ");
-    // scanf("%d", &choice);
-    choice = 1;
+    scanf("%d", &choice);
 
     /* -----------------------------------------------------
        CHECK / CALL
